@@ -6,7 +6,7 @@ import jwt from "jsonwebtoken";
 const admin = client.db(config.db.name).collection("admin");
 
 export default {
-  async create(username, password) {
+  async create({ username, password, role }) {
     // Check for an existing user in the db
 
     // console.log(username, password, "from admin controller");
@@ -22,7 +22,7 @@ export default {
     const hashPass = await bcrypt.hash(password, config.encryption.saltRounds);
 
     // Then add to DB
-    return admin.insertOne({ username, password: hashPass });
+    return admin.insertOne({ username, password: hashPass, role });
   },
 
   // Check to see if username exists in DB
