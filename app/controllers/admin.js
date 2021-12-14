@@ -19,10 +19,10 @@ export default {
     }
 
     // If new user, await adding 10 "salt" from bcrypt.hash
-    const hash = await bcrypt.hash(password, 10);
+    const hashPass = await bcrypt.hash(password, config.encryption.saltRounds);
 
     // Then add to DB
-    return admin.insertOne({ username, password: hash });
+    return admin.insertOne({ username, password: hashPass });
   },
 
   // Check to see if username exists in DB
