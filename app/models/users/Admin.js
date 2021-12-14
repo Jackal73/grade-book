@@ -5,4 +5,18 @@ export default class Admin extends User {
     super({ username, password });
     this.role = "ADMIN";
   }
+
+  validate() {
+    const errors = [];
+
+    if (!this.username) {
+      errors.push("Username is required");
+    }
+
+    if (!this.password) {
+      errors.push("Password is required");
+    }
+
+    return errors;
+  }
 }
