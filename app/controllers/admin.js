@@ -27,16 +27,20 @@ export default {
 
   // Check to see if username exists in DB
   async show(username, password) {
-    const user = await admin.findOne({ username });
+    const existingUser = await admin.findOne({ username });
 
-    // If the username is not found, error
-    if (!user) {
-      throw Error("User not found"); // Stops
+    const comparison = await bcrypt.compare(password, existingUser.password);
+    if (!comparison) {
+      throw new Error("Access denied");
     }
+    // // If the username is not found, error
+    // if (!existingUser) {
+    //   throw Error("User not found"); // Stops
+    // }
 
     // If it exists;
     // Compare, (with bcrypt.compare), string password with hashed password
-    const match = await bcrypt.compare(password, user.password);
+    const match = await bcrypt.compare(password, existingUser.password);
 
     // If passwords do not match, error
     if (!match) {
