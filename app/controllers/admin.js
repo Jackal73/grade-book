@@ -1,7 +1,7 @@
-import client from "../client.js";
-import config from "../config.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import client from "../client.js";
+import config from "../config.js";
 
 const admin = client.db(config.db.name).collection("admin");
 
@@ -26,7 +26,7 @@ export default {
   },
 
   // Check to see if username exists in DB
-  async show(username, password) {
+  async show({ username, password }) {
     const existingUser = await admin.findOne({ username });
 
     const comparison = await bcrypt.compare(password, existingUser.password);
@@ -48,8 +48,12 @@ export default {
     }
 
     // If they match, get a signed Json Web Token
-    return jwt.sign({ username }, config.encryption.secret, {
-      expiresIn: config.encryption.expiresIn,
-    });
+    return jwt.sign(
+      { username, role: existingUser.role },
+      config.encryption.secret,
+      {
+        expiresIn: config.encryption.expiresIn,
+      }
+    );
   },
 };
