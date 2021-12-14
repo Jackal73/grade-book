@@ -1,6 +1,7 @@
 import express from "express";
 import config from "./config.js";
 import router from "./routes/index.js";
+import isAuth from "./middleware/isAuth.js";
 
 const app = express();
 
@@ -10,6 +11,7 @@ app.get("/", (_, res) => {
 
 // Middleware that allows express to read incoming json requests
 app.use(express.json());
+app.use(isAuth);
 
 // Middleware that starts the router
 app.use("/api", router);
