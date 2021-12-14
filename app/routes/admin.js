@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
 
     // Log in the user and wait for Json Web Token
     const token = await adminController.show(username, password);
-    res.send(token);
+    res.status(201).send(token);
   } catch ({ message }) {
     res.status(400).json({ message });
   }
