@@ -9,8 +9,6 @@ export default {
   async create({ username, password, role }) {
     // Check for an existing user in the db
 
-    // console.log(username, password, "from admin controller");
-
     const existingUser = await admin.findOne({ username });
 
     // Error if user already exists in DB
@@ -36,19 +34,6 @@ export default {
     const comparison = await bcrypt.compare(password, existingUser.password);
     if (!comparison) {
       throw new Error("Access denied");
-    }
-    // // If the username is not found, error
-    // if (!existingUser) {
-    //   throw Error("User not found"); // Stops
-    // }
-
-    // If it exists;
-    // Compare, (with bcrypt.compare), string password with hashed password
-    const match = await bcrypt.compare(password, existingUser.password);
-
-    // If passwords do not match, error
-    if (!match) {
-      throw Error("Password does not match"); // Stops
     }
 
     // If they match, get a signed Json Web Token
