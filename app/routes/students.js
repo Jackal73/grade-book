@@ -7,6 +7,7 @@ router.get("/", (_, res) => {
   res.send("Hello World!");
 });
 
+// Get list of students - use POST for authentication
 router.post("/", async ({ isAuth }, res) => {
   // if request is properly authorized...
   if (isAuth?.role === "ADMIN") {
@@ -21,6 +22,7 @@ router.post("/", async ({ isAuth }, res) => {
   }
 });
 
+// Show a student by id
 router.post("/:id", async ({ isAuth, params }, res) => {
   if (isAuth?.role === "ADMIN") {
     try {
@@ -34,6 +36,7 @@ router.post("/:id", async ({ isAuth, params }, res) => {
   }
 });
 
+// Update a grade
 router.put("/grade/:id", async ({ isAuth, body, params }, res) => {
   if (isAuth?.role === "ADMIN") {
     try {

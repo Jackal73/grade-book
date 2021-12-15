@@ -4,12 +4,17 @@ import config from "../config.js";
 
 const studentsClient = client.db(config.db.name).collection("students");
 export default {
+  // Get students
   index() {
     return studentsClient.find().toArray();
   },
+
+  // Student by id
   show(id) {
     return studentsClient.findOne({ _id: objectId(id) });
   },
+
+  // Update a grade by student and assignment id
   async update(id, grade) {
     const studentQuery = {
       _id: objectId(id),
