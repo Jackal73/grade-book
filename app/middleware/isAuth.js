@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 import config from "../config.js";
 
-export default (req, res, next) => {
+export default (req, _, next) => {
   try {
     req.isAuth = jwt.verify(
       req.headers.authorization.split(" ")[1],
