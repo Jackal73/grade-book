@@ -9,9 +9,13 @@ router.get("/", (_, res) => {
 
 router.post("/", async ({ isAuth }, res) => {
   // if request is properly authorized...
-  if (isAuth.role === "ADMIN") {
-    const students = await studentsController.index();
-    res.json(students);
+  if (isAuth?.role === "ADMIN") {
+    try {
+      const students = await studentsController.index();
+      res.json(students);
+    } catch ({ message }) {
+      res.status(500).json({ message });
+    }
   } else {
     res.status(401).json({ message: "Access Denied" });
   }
