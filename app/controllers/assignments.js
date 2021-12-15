@@ -1,10 +1,13 @@
 import client from "../client.js";
 import config from "../config.js";
 
-const assignmentsClient = client.db(config.db.name).collection("assignments");
+const assignments = client.db(config.db.name).collection("assignments");
+const students = client.db(config.db.name).collection("students");
 
 export default {
-  create(newAssignments) {
-    return assignmentsClient.insertOne(newAssignments);
+  async create(newAssignment) {
+    const { insertedId } = await assignments.insertOne(newAssignment);
+    await students.updateMany({}, { $push: { grades: newAssignment } });
+    return { insertedId };
   },
 };
