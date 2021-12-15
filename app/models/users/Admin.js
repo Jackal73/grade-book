@@ -9,12 +9,12 @@ export default class Admin extends User {
   validate() {
     const errors = [];
 
-    if (!this.username) {
-      errors.push("Username is required");
+    if (this.username.length < 3) {
+      errors.push("Username must be 3 character minimum");
     }
 
-    if (!this.password) {
-      errors.push("Password is required");
+    if (this.password.length < 5) {
+      errors.push("Password must be 5 character minimum");
     }
 
     return errors;
